@@ -1,1 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск по токену</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+    <script>
+        async function search() {
+            const searchQuery = document.getElementById("query").value;
+            const token = "1991173326:HAHA7rgX";
+            const apiUrl = "https://leakosintapi.com/";
+            
+            const data = {
+                token: token,
+                request: searchQuery,
+                limit: 100,
+                lang: "ru"
+            };
 
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                document.getElementById("result").innerText = JSON.stringify(result, null, 2);
+            } catch (error) {
+                document.getElementById("result").innerText = "Ошибка: " + error;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Поиск по токену</h1>
+        <input type="text" id="query" placeholder="Введите запрос">
+        <button onclick="search()">Искать</button>
+        <pre id="result"></pre>
+    </div>
+</body>
+</html>
